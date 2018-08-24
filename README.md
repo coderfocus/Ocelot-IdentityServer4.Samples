@@ -1,2 +1,2 @@
 # IdentityServer4.Samples
-IdentityServer4身份认证框架的代码实现
+Ocelot网关集成IdentityServer4身份认证框架的代码实现，同时增加了限流和熔断

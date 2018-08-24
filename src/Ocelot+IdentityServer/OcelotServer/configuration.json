@@ -1,0 +1,40 @@
+﻿{
+  "ReRoutes": [
+    // API:CAS.ClientService
+    {
+      "DownstreamPathTemplate": "/api/{url}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": "8801"
+        }
+      ],
+      "UpstreamPathTemplate": "/OrderService/{url}",
+      "ReRouteIsCaseSensitive": false,
+      "UpstreamHttpMethod": [ "Get", "Post" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "OrderServiceKey",
+        "AllowedScopes": []
+      }
+    },
+    // API:CAS.ProductService
+    {
+      "DownstreamPathTemplate": "/api/{url}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": "8802"
+        }
+      ],
+      "UpstreamPathTemplate": "/ProductService/{url}",
+      "ReRouteIsCaseSensitive": false,
+      "UpstreamHttpMethod": [ "Get", "Post" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "ProductServiceKey",
+        "AllowedScopes": [ "ProductService", "OrderService" ]
+      }
+    }
+  ]
+}

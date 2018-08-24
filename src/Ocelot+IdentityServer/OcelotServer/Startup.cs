@@ -27,6 +27,8 @@ namespace OcelotServer
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //定义要保护的Api资源（对应IdentityServer 的ApiResources）
+            //具体的能保护的Api资源范围由配置中的"AllowedScopes"决定
             Action<IdentityServerAuthenticationOptions> isaOptOrder = option =>
             {
                 option.Authority = "http://localhost:5000";
@@ -35,9 +37,7 @@ namespace OcelotServer
                 option.SupportedTokens = SupportedTokens.Both;
                 option.ApiSecret = "ordersecret";
             };
-
-            //定义要保护的Api资源（对应IdentityServer 的ApiResources）
-            //具体的能保护的Api资源范围由配置中的"AllowedScopes"决定
+        
             Action<IdentityServerAuthenticationOptions> isaOptProduct = option =>
             {
                 option.Authority = "http://localhost:5000";

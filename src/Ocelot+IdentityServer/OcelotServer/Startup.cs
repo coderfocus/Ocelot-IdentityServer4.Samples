@@ -12,6 +12,7 @@ using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
 using IdentityServer4;
 using IdentityServer4.AccessTokenValidation;
+using Ocelot.Provider.Polly;
 
 namespace OcelotServer
 {
@@ -52,7 +53,7 @@ namespace OcelotServer
                 .AddIdentityServerAuthentication("ProductServiceKey", isaOptProduct);
 
             // Ocelot
-            services.AddOcelot(Configuration);
+            services.AddOcelot(Configuration).AddPolly();
             
         }
 

@@ -1,6 +1,5 @@
 ﻿{
   "ReRoutes": [
-    // API:CAS.ClientService
     {
       "DownstreamPathTemplate": "/api/{url}",
       "DownstreamScheme": "http",
@@ -18,7 +17,6 @@
         "AllowedScopes": []
       }
     },
-    // API:CAS.ProductService
     {
       "DownstreamPathTemplate": "/api/{url}",
       "DownstreamScheme": "http",
@@ -35,6 +33,19 @@
         "AuthenticationProviderKey": "ProductServiceKey",
         "AllowedScopes": [ "ProductService", "OrderService" ]
       }
+    },
+    {
+      "DownstreamPathTemplate": "/{url}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": "5000"
+        }
+      ],
+      "UpstreamPathTemplate": "/IdentityService/{url}",
+      "ReRouteIsCaseSensitive": false,
+      "UpstreamHttpMethod": [ "Get", "Post" ]
     }
   ]
 }

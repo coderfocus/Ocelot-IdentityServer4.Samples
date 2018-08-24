@@ -31,20 +31,20 @@ namespace OcelotServer
             //具体的能保护的Api资源范围由配置中的"AllowedScopes"决定
             Action<IdentityServerAuthenticationOptions> isaOptOrder = option =>
             {
-                option.Authority = "http://localhost:5000";
+                option.Authority = Configuration["IdentityService:Uri"];
                 option.ApiName = "OrderService";
-                option.RequireHttpsMetadata = false;
+                option.RequireHttpsMetadata = Convert.ToBoolean(Configuration["IdentityService:UseHttps"]);
                 option.SupportedTokens = SupportedTokens.Both;
-                option.ApiSecret = "ordersecret";
+                option.ApiSecret = Configuration["IdentityService:ApiSecrets:OrderService"];
             };
         
             Action<IdentityServerAuthenticationOptions> isaOptProduct = option =>
             {
-                option.Authority = "http://localhost:5000";
+                option.Authority = Configuration["IdentityService:Uri"];
                 option.ApiName = "ProductService";
-                option.RequireHttpsMetadata = false;
+                option.RequireHttpsMetadata = Convert.ToBoolean(Configuration["IdentityService:UseHttps"]);
                 option.SupportedTokens = SupportedTokens.Both;
-                option.ApiSecret = "productsecret";
+                option.ApiSecret = Configuration["IdentityService:ApiSecrets:ProductService"];
             };
 
             services.AddAuthentication()

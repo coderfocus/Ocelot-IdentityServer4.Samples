@@ -20,8 +20,5 @@ namespace QosApi.Controllers
             }
             return "ok!";
         }
-
-       
-    
     }
 }

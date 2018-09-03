@@ -20,7 +20,7 @@ namespace OcelotServer
         public static IWebHost BuildWebHost(string[] args) =>
                             WebHost.CreateDefaultBuilder(args)
                             .UseStartup<Startup>()
-                            .UseUrls("http://localhost:8080")
+                            .UseUrls("http://localhost:8888")
                             .ConfigureAppConfiguration((hostingContext, builder) =>
                             {
                                 builder.AddJsonFile("configuration.json", false, true);

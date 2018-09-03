@@ -40,7 +40,7 @@ namespace IdentityServer
                             new Secret("qwerty".Sha256())
                        },
                        // 客户端有权访问的范围（Scopes）
-                       AllowedScopes = { "OrderService","ProductService" }
+                       AllowedScopes = { "OrderService", "ProductService" }
                 },
                   new Client
                  {

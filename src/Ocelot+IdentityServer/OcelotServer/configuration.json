@@ -9,21 +9,13 @@
           "Port": "8801"
         }
       ],
-      "UpstreamPathTemplate": "/OrderService/{url}",
+      "UpstreamPathTemplate": "/Order/{url}",
       "ReRouteIsCaseSensitive": false,
       "UpstreamHttpMethod": [ "Get", "Post" ],
       //验证授权
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "OrderServiceKey",
         "AllowedScopes": []
-      },
-      //限流
-      "RateLimitOptions": {
-        "ClientWhitelist": [ "admin" ], // 白名单
-        "EnableRateLimiting": true, // 是否启用限流
-        "Period": "1m", // 统计时间段：1s, 5m, 1h, 1d
-        "PeriodTimespan": 15, // 多少秒之后客户端可以重试
-        "Limit": 5 // 在统计时间段内允许的最大请求数量
       }
     },
     {
@@ -35,57 +27,89 @@
           "Port": "8802"
         }
       ],
-      "UpstreamPathTemplate": "/ProductService/{url}",
+      "UpstreamPathTemplate": "/238/Order/{url}",
       "ReRouteIsCaseSensitive": false,
-      "UpstreamHttpMethod": [ "Get", "Post" ],
-      "AuthenticationOptions": {
-        "AuthenticationProviderKey": "ProductServiceKey",
-        "AllowedScopes": [ "ProductService", "OrderService" ]
-      }
+      "UpstreamHttpMethod": [ "Get", "Post" ]
+      //验证授权
+      //"AuthenticationOptions": {
+      //  "AuthenticationProviderKey": "OrderServiceKey",
+      //  "AllowedScopes": []
+      //}
     },
+    //  //限流
+    //  "RateLimitOptions": {
+    //    "ClientWhitelist": [ "admin" ], // 白名单
+    //    "EnableRateLimiting": true, // 是否启用限流
+    //    "Period": "1m", // 统计时间段：1s, 5m, 1h, 1d
+    //    "PeriodTimespan": 15, // 多少秒之后客户端可以重试
+    //    "Limit": 5 // 在统计时间段内允许的最大请求数量
+    //  }
+    //},
     {
       "DownstreamPathTemplate": "/api/{url}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
-          "Port": "8803"
+          "Port": "8802"
         }
       ],
-      "UpstreamPathTemplate": "/QosService/{url}",
+      "UpstreamPathTemplate": "/Product/{url}",
       "ReRouteIsCaseSensitive": false,
       "UpstreamHttpMethod": [ "Get", "Post" ],
-      //熔断全局配置
-      "QoSOptions": {
-        "ExceptionsAllowedBeforeBreaking": 2, // 允许多少个异常请求
-        "DurationOfBreak": 10000, // 熔断的时间，单位为毫秒
-        "TimeoutValue": 2000 // 如果下游请求的处理时间超过多少则视如该请求超时
+      //验证授权
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "ProductServiceKey",
+        "AllowedScopes": []
       }
     },
+    //{
+    //  "DownstreamPathTemplate": "/api/{url}",
+    //  "DownstreamScheme": "http",
+    //  "DownstreamHostAndPorts": [
+    //    {
+    //      "Host": "localhost",
+    //      "Port": "8803"
+    //    }
+    //  ],
+    //  "UpstreamPathTemplate": "/QosService/{url}",
+    //  "ReRouteIsCaseSensitive": false,
+    //  "UpstreamHttpMethod": [ "Get", "Post" ],
+    //  //熔断全局配置
+    //  "QoSOptions": {
+    //    "ExceptionsAllowedBeforeBreaking": 2, // 允许多少个异常请求
+    //    "DurationOfBreak": 10000, // 熔断的时间，单位为毫秒
+    //    "TimeoutValue": 2000 // 如果下游请求的处理时间超过多少则视如该请求超时
+    //  }
+    //},
     {
       "DownstreamPathTemplate": "/{url}",
       "DownstreamScheme": "http",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "localhost",
-          "Port": "5000"
-        }
-      ],
       "UpstreamPathTemplate": "/IdentityService/{url}",
-      "ReRouteIsCaseSensitive": false,
-      "UpstreamHttpMethod": [ "Get", "Post" ]
+      "UpstreamHttpMethod": [],
+      "ServiceName": "Identity",
+      "LoadBalancerOptions": {
+        "Type": "RoundRobin"
+      },
+      "UseServiceDiscovery": true
     }
   ],
   "GlobalConfiguration": {
-    "BaseUrl": "http://localhost:5000",
+    "BaseUrl": "http://localhost:8888",
     //限流全局配置
-    "RateLimitOptions": {
-      "DisableRateLimitHeaders": false, // Http头  X-Rate-Limit 和 Retry-After 是否禁用
-      "QuotaExceededMessage": "Too many requests, are you OK?", // 当请求过载被截断时返回的消息
-      "HttpStatusCode": 999, // 当请求过载被截断时返回的http status
-      "ClientIdHeader": "client_id" // 用来识别客户端的请求头，默认是 ClientId
+    //"RateLimitOptions": {
+    //  "DisableRateLimitHeaders": false, // Http头  X-Rate-Limit 和 Retry-After 是否禁用
+    //  "QuotaExceededMessage": "Too many requests, are you OK?", // 当请求过载被截断时返回的消息
+    //  "HttpStatusCode": 999, // 当请求过载被截断时返回的http status
+    //  "ClientIdHeader": "client_id" // 用来识别客户端的请求头，默认是 ClientId
+    //},
+    "ServiceDiscoveryProvider": {
+      "Host": "localhost",
+      "Port": 8500,
+      "Type": "Consul"
     }
-    
+
 
   }
 }
+ 

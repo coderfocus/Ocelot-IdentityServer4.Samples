@@ -18,13 +18,13 @@ namespace IdentityServer
         {
             //使用内存存储的秘钥、客户端和资源配置id4
             services.AddIdentityServer(x => x.IssuerUri = "http://localhost:8500")
-            .AddDeveloperSigningCredential()
+           .AddDeveloperSigningCredential()
             .AddInMemoryApiResources(Config.GetApiResources())
             .AddInMemoryClients(Config.GetClients());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env,IApplicationLifetime applifetime)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IApplicationLifetime applifetime)
         {
             if (env.IsDevelopment())
             {
@@ -32,31 +32,29 @@ namespace IdentityServer
             }
             using (var client = new ConsulClient((ConsulClientConfiguration obj) =>
             {
-                obj.Address = new Uri("http://localhost:8500");               
+                obj.Address = new Uri("http://localhost:8500");
             }))
             {
                 var registration = new AgentServiceRegistration()
                 {
-                    ID = "Identity1",
+                    ID = "Identity2",
                     Name = "Identity",
-                    Address ="localhost",
-                    Port =5000
+                    Address = "localhost",
+                    Port = 5001
                 };
                 client.Agent.ServiceRegister(registration).Wait();//服务启动时注册，内部实现其实就是使用 Consul API 进行注册（HttpClient发起）              
             }
-
             app.UseIdentityServer();
-            applifetime.ApplicationStopping.Register(()=> {
+
+            applifetime.ApplicationStopping.Register(() => {
                 using (var client = new ConsulClient((ConsulClientConfiguration obj) =>
                 {
                     obj.Address = new Uri("http://localhost:8500");
                 }))
                 {
-                    client.Agent.ServiceDeregister("Identity1").Wait();//服务启动时注册，内部实现其实就是使用 Consul API 进行注册（HttpClient发起）
+                    client.Agent.ServiceDeregister("Identity2").Wait();//服务启动时注册，内部实现其实就是使用 Consul API 进行注册（HttpClient发起）
                 }
             });
         }
-
-       
     }
 }

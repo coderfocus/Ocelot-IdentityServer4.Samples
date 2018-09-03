@@ -13,6 +13,7 @@ using Ocelot.Middleware;
 using IdentityServer4;
 using IdentityServer4.AccessTokenValidation;
 using Ocelot.Provider.Polly;
+using Ocelot.Provider.Consul;
 
 namespace OcelotServer
 {
@@ -53,8 +54,8 @@ namespace OcelotServer
                 .AddIdentityServerAuthentication("ProductServiceKey", isaOptProduct);
 
             // Ocelot
-            services.AddOcelot(Configuration).AddPolly();
-            
+            //services.AddOcelot(Configuration).AddPolly();
+            services.AddOcelot(Configuration).AddPolly().AddConsul();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
